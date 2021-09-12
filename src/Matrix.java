@@ -27,23 +27,33 @@ public class Matrix {
             System.arraycopy(values[i], 0, this.values[i], 0, lines);
     }
 
-
-    public double getValue(int column, int line) {
-        return values[column][line];
+    public static Matrix multiplication(Matrix matrix1, Matrix matrix2){
+        if (matrix1.getColumns() != matrix2.getLines()){
+            throw new IllegalArgumentException("введены неумножаемые матрицы");
+        }
+        Matrix rez = new Matrix(matrix1.getLines(), matrix2.getColumns());
+        double element;
+        for (int i = 0; i < matrix1.getLines(); i++)
+            for (int j = 0; j < matrix2.getColumns(); j++){
+                element = 0;
+                for (int k = 0; k < matrix1.getColumns(); k++){
+                    element = element + matrix1.getValue(i, k) * matrix2.getValue(k, j);
+                }
+                rez.setValue(i,j,element);
+            }
+        return rez;
     }
-    public void setValue(int column, int line, double value) {
-        values[column][line] = value;
+
+    public double getValue(int line, int column) {
+        return values[line][column];
+    }
+    public void setValue(int line, int column, double value) {
+        values[line][column] = value;
     }
     public int getColumns() {
         return columns;
     }
-    public void setColumns(int columns) {
-        this.columns = columns;
-    }
     public int getLines() {
         return lines;
-    }
-    public void setLines(int lines) {
-        this.lines = lines;
     }
 }
