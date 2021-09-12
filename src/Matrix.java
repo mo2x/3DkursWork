@@ -7,17 +7,19 @@ public class Matrix {
         this(1,1);
     }
     Matrix(int lines, int columns){
+        this.lines = lines;
+        this.columns = columns;
         values = new double[lines][columns];
     }
     Matrix(int lines, int columns , double... values){
+        this.lines = lines;
+        this.columns = columns;
         if ((lines * columns) != values.length){
             throw new IllegalArgumentException("количество элементов несоответствует количествулиний и колонок");
         }
         this.values = new double[lines][columns];
         for (int i = 0; i < lines; i++)
-            for (int j = 0; j < columns; j++){
-                this.values[i][j] = values[i*columns+columns];
-            }
+            if (columns >= 0) System.arraycopy(values, i * columns, this.values[i], 0, columns);
     }
     Matrix(double[][] values){
         lines = values.length;
@@ -49,6 +51,9 @@ public class Matrix {
         return rez;
     }
 
+    public double[][] getValues() {
+        return values;
+    }
     public double getValue(int line, int column) {
         return values[line][column];
     }
