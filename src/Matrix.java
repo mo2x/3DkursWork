@@ -1,7 +1,7 @@
 public class Matrix {
 
     private int lines, columns;
-    private double values[][];
+    private double[][] values;
 
     Matrix(){
         this(1,1);
@@ -27,6 +27,11 @@ public class Matrix {
             System.arraycopy(values[i], 0, this.values[i], 0, lines);
     }
 
+    public void Print(){
+        for (int i = 0; i<lines; i++)
+            for (int j = 0; j<columns; j++)
+                System.out.print(values[i][j]);
+    }
     public static Matrix multiplication(Matrix matrix1, Matrix matrix2){
         if (matrix1.getColumns() != matrix2.getLines()){
             throw new IllegalArgumentException("введены неумножаемые матрицы");
