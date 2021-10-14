@@ -1,17 +1,17 @@
+package MatrixPack;
+
 public class Matrix {
 
     private int lines, columns;
     private double[][] values;
 
-    Matrix(){
+    public Matrix(){
         this(1,1);
     }
-    Matrix(int lines, int columns){
-        this.lines = lines;
-        this.columns = columns;
-        values = new double[lines][columns];
+    public Matrix(int lines, int columns){
+        this(lines,columns,new double[lines * columns]);
     }
-    Matrix(int lines, int columns , double... values){
+    public Matrix(int lines, int columns , double... values){
         this.lines = lines;
         this.columns = columns;
         if ((lines * columns) != values.length){
@@ -21,7 +21,7 @@ public class Matrix {
         for (int i = 0; i < lines; i++)
             if (columns >= 0) System.arraycopy(values, i * columns, this.values[i], 0, columns);
     }
-    Matrix(double[][] values){
+    public Matrix(double[][] values){
         lines = values.length;
         columns = values[0].length;
         this.values = new double[lines][columns];
