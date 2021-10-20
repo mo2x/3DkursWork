@@ -12,21 +12,18 @@ public class MatrixTest {
 
     @Before
     public void setUp() throws Exception{
-        testMatrix1 = new Matrix(4,4,
-                1,2,3,4,
-                       5,6,7,8,
-                       9,10,11,12,
-                       13,14,15,16);
-        testMatrix2 = new Matrix(4,4,
-                17,18,19,20,
-                        21,22,23,24,
-                        25,26,27,28,
-                        29,30,31,32);
-        multiplicationAns = new Matrix(4,4,
-                250, 260, 270, 280,
-                618, 644, 670, 696,
-                986, 1028, 1070, 1112,
-                1354, 1412, 1470, 1528);
+        testMatrix1 = new Matrix(3,3,
+                2345,765,636,
+                1,4543,2345,
+                98,-56,13);
+        testMatrix2 = new Matrix(3,3,
+                4,2245,0,
+                687,-976,-987,
+                235,78,35);
+        multiplicationAns = new Matrix(3,3,
+                684395,	4567493,	-732795,
+                3672120,	-4248813,	-4401866,
+                -35025,	275680,	55727);
     }
 
     @Test

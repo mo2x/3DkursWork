@@ -5,6 +5,10 @@ public class Matrix {
     private int lines, columns;
     private double[][] values;
 
+    public Matrix(Matrix matrix){
+        this(matrix.getLines(),matrix.getColumns());
+        values = matrix.getValues();
+    }
     public Matrix(){
         this(1,1);
     }
@@ -30,9 +34,11 @@ public class Matrix {
     }
 
     public void Print(){
-        for (int i = 0; i<lines; i++)
-            for (int j = 0; j<columns; j++)
-                System.out.print(values[i][j]);
+        for (int i = 0; i<lines; i++) {
+            for (int j = 0; j < columns; j++)
+                System.out.print(values[i][j]+" ");
+            System.out.print("\n");
+        }
     }
     public static Matrix multiplication(Matrix matrix1, Matrix matrix2){
         if (matrix1.getColumns() != matrix2.getLines()){
@@ -50,9 +56,25 @@ public class Matrix {
             }
         return rez;
     }
+    public static Matrix sum(Matrix matrix1, Matrix matrix2){
+        if ((matrix1.getColumns() == matrix2.getColumns())&&(matrix1.getLines() == matrix2.getLines())){
+            Matrix rez = new Matrix(matrix1.getLines(), matrix1.getColumns());
+            for (int i = 0; i < matrix1.getLines(); i++){
+                for (int j = 0; j < matrix1.getColumns(); j++){
+                    rez.setValue(i,j,matrix1.getValue(i,j)+matrix2.getValue(i,j));
+                }
+            }
+            return rez;
+        }else {
+            throw new IllegalArgumentException("нельзя сложить данные матрицы");
+        }
+    }
 
     public double[][] getValues() {
         return values;
+    }
+    public void setValues(double[][] values) {
+        this.values = values;
     }
     public double getValue(int line, int column) {
         return values[line][column];
