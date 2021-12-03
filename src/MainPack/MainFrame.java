@@ -1,3 +1,10 @@
+package MainPack;
+
+import Listeners.*;
+import bjects.Cords;
+import bjects.MainObj;
+import bjects.SimpleStore;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -33,8 +40,25 @@ public class MainFrame extends JFrame {
     private JTextField tPosZ;
     private JTextField tSizeZ;
     private JTextField tRotZ;
-    private JButton transformApplyButton;
-    public MainFrame.PaintPanel paintPanel;
+    private JButton positionButton;
+    private JPanel proection;
+    private JTextField posX;
+    private JTextField posY;
+    private JTextField posZ;
+    private JPanel posPanel;
+    private JPanel sizePanel;
+    private JPanel rotatePanel;
+    private JButton reposButton;
+    private JButton resizeButton;
+    private JTextField sizeX;
+    private JTextField sizeY;
+    private JTextField sizeZ;
+    private JTextField rotX;
+    private JTextField rotY;
+    private JTextField rotZ;
+    private JButton rotateButton;
+    private PaintPanel paintPanel;
+
 
     public MainFrame() {
         super();
@@ -47,6 +71,7 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1000, 500);
         this.setVisible(true);
+        viewPanel.setIgnoreRepaint(true);
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.fill = GridBagConstraints.BOTH;
         gridBagConstraints.gridx = 0;
@@ -55,77 +80,18 @@ public class MainFrame extends JFrame {
         gridBagConstraints.gridwidth = 1;
         gridBagConstraints.weightx = 1;
         gridBagConstraints.weighty = 1;
-        paintPanel = new MainFrame.PaintPanel();
+        paintPanel = new PaintPanel();
         viewPanel.add(paintPanel, gridBagConstraints);
         paintPanel.setVisible(true);
-        makeObjButton.addActionListener(new MakeObjButtonListener());
-        applyButton.addActionListener(new ApplyButtonListener());
-        transformApplyButton.addActionListener(new TransformApplyListener());
+        makeObjButton.addActionListener(new MakeObjButtonListener(paintPanel, h1TF, rTF, kTF, h2TF, aTF));
+        applyButton.addActionListener(new ApplyButtonListener(wightCount));
+        reposButton.addActionListener(new RePosApplyListener(paintPanel, posX, posY, posZ));
+        resizeButton.addActionListener(new ReSizeApplyListener(paintPanel, sizeX, sizeY, sizeZ));
+        rotateButton.addActionListener(new RotateApplyListener(paintPanel, rotX, rotY, rotZ));
     }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-
-    }
-
-
-    private class MakeObjButtonListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
-                SimpleStore.Points.clear();
-                SimpleStore.Lines.clear();
-                double h1 = Double.parseDouble(h1TF.getText());
-                double r = Double.parseDouble(rTF.getText());
-                int k = Integer.parseInt(kTF.getText());
-                double h2 = Double.parseDouble(h2TF.getText());
-                double a = Double.parseDouble(aTF.getText());
-                MainObj.createObj(h1, r, k, h2, a);
-                paintPanel.repaint();
-            } catch (Exception exception) {
-                System.out.print("Неправильно введены данные");
-            }
-        }
-    }
-
-    private class ApplyButtonListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
-
-                int count = Integer.parseInt(wightCount.getText());
-                Painter.wightCount = count;
-                paintPanel.repaint();
-            } catch (Exception exception) {
-                System.out.print("Неправильно введены данные");
-            }
-        }
-    }
-
-    private class TransformApplyListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            double[][] outputV = new double[3][3];
-            try {
-                outputV[0][0] = Double.parseDouble(tPosX.getText());
-                outputV[0][1] = Double.parseDouble(tPosY.getText());
-                outputV[0][2] = Double.parseDouble(tPosZ.getText());
-
-                outputV[1][0] = Double.parseDouble(tSizeX.getText());
-                outputV[1][1] = Double.parseDouble(tSizeY.getText());
-                outputV[1][2] = Double.parseDouble(tSizeZ.getText());
-
-                outputV[2][0] = Double.parseDouble(tRotX.getText());
-                outputV[2][1] = Double.parseDouble(tRotY.getText());
-                outputV[2][2] = Double.parseDouble(tRotZ.getText());
-                Controller.transform(outputV);
-                repaint();
-            } catch (Exception exception) {
-                System.out.print(exception);
-            }
-        }
+    public PaintPanel getPaintPanel() {
+        return paintPanel;
     }
 
     {
@@ -319,150 +285,219 @@ public class MainFrame extends JFrame {
         transform.setLayout(new GridBagLayout());
         transform.setForeground(new Color(-16777216));
         tabbedPane1.addTab("Трансформация объекта", transform);
+        posPanel = new JPanel();
+        posPanel.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        transform.add(posPanel, gbc);
+        posPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(-16777216)), "Перемещение", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JLabel label6 = new JLabel();
-        label6.setText("Перемещение");
+        label6.setText("X:");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
-        transform.add(label6, gbc);
+        posPanel.add(label6, gbc);
+        posX = new JTextField();
+        posX.setText("0");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        posPanel.add(posX, gbc);
         final JLabel label7 = new JLabel();
-        label7.setText("Масштабирование");
+        label7.setText("Y:");
         gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridx = 2;
+        gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
-        transform.add(label7, gbc);
+        posPanel.add(label7, gbc);
+        posY = new JTextField();
+        posY.setText("0");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 3;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        posPanel.add(posY, gbc);
         final JLabel label8 = new JLabel();
-        label8.setText("Поворот");
+        label8.setText("Z:");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 4;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        posPanel.add(label8, gbc);
+        posZ = new JTextField();
+        posZ.setText("0");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 5;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        posPanel.add(posZ, gbc);
+        reposButton = new JButton();
+        reposButton.setText("Переместить");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 1;
+        gbc.gridwidth = 6;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        posPanel.add(reposButton, gbc);
+        sizePanel = new JPanel();
+        sizePanel.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        transform.add(sizePanel, gbc);
+        sizePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(-16777216)), "Изменение размера", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        sizeX = new JTextField();
+        sizeX.setText("1");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
         gbc.anchor = GridBagConstraints.WEST;
-        transform.add(label8, gbc);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        sizePanel.add(sizeX, gbc);
         final JLabel label9 = new JLabel();
-        label9.setHorizontalAlignment(10);
-        label9.setHorizontalTextPosition(11);
-        label9.setText("X");
+        label9.setText("Y:");
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        sizePanel.add(label9, gbc);
+        sizeY = new JTextField();
+        sizeY.setText("1");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 3;
         gbc.gridy = 0;
         gbc.weightx = 1.0;
-        transform.add(label9, gbc);
-        tPosX = new JTextField();
-        tPosX.setText("0");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.weightx = 1.0;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        transform.add(tPosX, gbc);
-        tSizeX = new JTextField();
-        tSizeX.setText("1");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        transform.add(tSizeX, gbc);
-        tRotX = new JTextField();
-        tRotX.setText("0");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 3;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        transform.add(tRotX, gbc);
-        tPosY = new JTextField();
-        tPosY.setText("0");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 1;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        transform.add(tPosY, gbc);
-        tSizeY = new JTextField();
-        tSizeY.setText("1");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        transform.add(tSizeY, gbc);
-        tRotY = new JTextField();
-        tRotY.setText("0");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 3;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        transform.add(tRotY, gbc);
+        sizePanel.add(sizeY, gbc);
         final JLabel label10 = new JLabel();
-        label10.setText("Y");
+        label10.setText("Z:");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 4;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        sizePanel.add(label10, gbc);
+        sizeZ = new JTextField();
+        sizeZ.setText("1");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 5;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        sizePanel.add(sizeZ, gbc);
+        final JLabel label11 = new JLabel();
+        label11.setText("X:");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        sizePanel.add(label11, gbc);
+        resizeButton = new JButton();
+        resizeButton.setText("масштабировать");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 6;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        sizePanel.add(resizeButton, gbc);
+        rotatePanel = new JPanel();
+        rotatePanel.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        transform.add(rotatePanel, gbc);
+        rotatePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "Поворот", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        rotateButton = new JButton();
+        rotateButton.setText("повернуть");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 6;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        rotatePanel.add(rotateButton, gbc);
+        rotX = new JTextField();
+        rotX.setText("0");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        rotatePanel.add(rotX, gbc);
+        final JLabel label12 = new JLabel();
+        label12.setText("Y:");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        transform.add(label10, gbc);
-        final JLabel label11 = new JLabel();
-        label11.setText("Z");
+        gbc.anchor = GridBagConstraints.WEST;
+        rotatePanel.add(label12, gbc);
+        rotY = new JTextField();
+        rotY.setText("0");
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 0;
         gbc.weightx = 1.0;
-        transform.add(label11, gbc);
-        tPosZ = new JTextField();
-        tPosZ.setText("0");
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        rotatePanel.add(rotY, gbc);
+        final JLabel label13 = new JLabel();
+        label13.setText("Z:");
         gbc = new GridBagConstraints();
-        gbc.gridx = 3;
-        gbc.gridy = 1;
+        gbc.gridx = 4;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        rotatePanel.add(label13, gbc);
+        rotZ = new JTextField();
+        rotZ.setText("0");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 5;
+        gbc.gridy = 0;
         gbc.weightx = 1.0;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        transform.add(tPosZ, gbc);
-        tSizeZ = new JTextField();
-        tSizeZ.setText("1");
+        rotatePanel.add(rotZ, gbc);
+        final JLabel label14 = new JLabel();
+        label14.setText("X:");
         gbc = new GridBagConstraints();
-        gbc.gridx = 3;
-        gbc.gridy = 2;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        transform.add(tSizeZ, gbc);
-        tRotZ = new JTextField();
-        tRotZ.setText("0");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 3;
-        gbc.gridy = 3;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        transform.add(tRotZ, gbc);
+        rotatePanel.add(label14, gbc);
         final JPanel spacer5 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 3;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.VERTICAL;
         transform.add(spacer5, gbc);
-        transformApplyButton = new JButton();
-        transformApplyButton.setText("применить");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 4;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        transform.add(transformApplyButton, gbc);
+        proection = new JPanel();
+        proection.setLayout(new GridBagLayout());
+        tabbedPane1.addTab("Проекции объекта", proection);
         Other = new JPanel();
         Other.setLayout(new GridBagLayout());
         tabbedPane1.addTab("Стороннее", Other);
-        final JLabel label12 = new JLabel();
-        label12.setText("Масштабирование координатной сетки");
+        final JLabel label15 = new JLabel();
+        label15.setText("Масштабирование координатной сетки");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
-        Other.add(label12, gbc);
+        Other.add(label15, gbc);
         wightCount = new JTextField();
         wightCount.setText("30");
         gbc = new GridBagConstraints();
@@ -487,13 +522,13 @@ public class MainFrame extends JFrame {
         Other.add(spacer6, gbc);
         viewPanel = new JPanel();
         viewPanel.setLayout(new GridBagLayout());
-        viewPanel.setBackground(new Color(-1));
+        viewPanel.setBackground(new Color(-16777216));
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.gridheight = 2;
-        gbc.weightx = 0.9;
-        gbc.weighty = 0.9;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
         mainContext.add(viewPanel, gbc);
     }
@@ -505,18 +540,4 @@ public class MainFrame extends JFrame {
         return mainContext;
     }
 
-    public static class PaintPanel extends JPanel {
-        public PaintPanel() {
-            super();
-            setBackground(Color.white);
-        }
-
-        @Override
-        public void paintComponent(Graphics g1) {
-            super.paintComponent(g1);
-            Painter.drawCord(g1);
-            Graphics2D g = (Graphics2D) g1;
-            Painter.drawLines(g);
-        }
-    }
 }

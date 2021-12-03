@@ -1,4 +1,4 @@
-package SimpleParts;
+package SimpleParts.TransformMatrix;
 
 import MatrixPack.Matrix;
 

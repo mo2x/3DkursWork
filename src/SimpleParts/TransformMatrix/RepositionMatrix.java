@@ -1,10 +1,10 @@
-package SimpleParts;
+package SimpleParts.TransformMatrix;
 
 import MatrixPack.Matrix;
 
-public class TransformMatrix extends Matrix {
+public class RepositionMatrix extends Matrix {
 
-    public TransformMatrix(double x, double y, double z){
+    public RepositionMatrix(double x, double y, double z){
         super(4,4,
                 0, 0, 0, 0,
                 0, 0, 0, 0,

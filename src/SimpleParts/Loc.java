@@ -1,5 +1,7 @@
 package SimpleParts;
 
+import MainPack.Controller;
+
 public class Loc {
     double x;
     double y;
@@ -12,13 +14,12 @@ public class Loc {
     }
 
     public int getX() {
-        return (int) x;
+        return Controller.doubleToInt(x);
     }
 
     public int getY() {
-        return (int) y;
+        return Controller.doubleToInt(y);
     }
-
 
     public double getDoubleX() {
         return x;

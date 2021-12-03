@@ -1,5 +1,7 @@
 package MatrixPack;
 
+import java.util.ArrayList;
+
 public class Matrix {
 
     private int lines, columns;
@@ -56,6 +58,7 @@ public class Matrix {
             }
         return rez;
     }
+
     public static Matrix sum(Matrix matrix1, Matrix matrix2){
         if ((matrix1.getColumns() == matrix2.getColumns())&&(matrix1.getLines() == matrix2.getLines())){
             Matrix rez = new Matrix(matrix1.getLines(), matrix1.getColumns());
