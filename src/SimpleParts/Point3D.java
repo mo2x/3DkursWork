@@ -7,7 +7,7 @@ import java.math.RoundingMode;
 
 public class Point3D extends Matrix {
 
-    final int PLACES = 2;
+    final int PLACES = 3;
 
     public Point3D(Matrix matrix){
         super(matrix);

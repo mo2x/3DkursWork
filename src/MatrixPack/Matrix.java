@@ -9,7 +9,11 @@ public class Matrix {
 
     public Matrix(Matrix matrix){
         this(matrix.getLines(),matrix.getColumns());
-        values = matrix.getValues();
+        for (int i = 0; i< values.length; i++){
+            for (int j = 0; j< values[i].length; j++){
+                values[i][j] = matrix.getValues()[i][j];
+            }
+        }
     }
     public Matrix(){
         this(1,1);
@@ -42,7 +46,9 @@ public class Matrix {
             System.out.print("\n");
         }
     }
-    public static Matrix multiplication(Matrix matrix1, Matrix matrix2){
+    public static Matrix multiplication(Matrix matrix1c, Matrix matrix2c){
+        Matrix matrix1 = new Matrix(matrix1c);
+        Matrix matrix2 = new Matrix(matrix2c);
         if (matrix1.getColumns() != matrix2.getLines()){
             throw new IllegalArgumentException("введены неумножаемые матрицы");
         }

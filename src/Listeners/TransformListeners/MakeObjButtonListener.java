@@ -1,4 +1,4 @@
-package Listeners;
+package Listeners.TransformListeners;
 
 import MainPack.MainFrame;
 import MainPack.PaintPanel;
@@ -42,8 +42,10 @@ public class MakeObjButtonListener implements ActionListener {
             double h2 = Double.parseDouble(h2TF.getText());
             double a = Double.parseDouble(aTF.getText());
             SimpleStore.objs.clear();
-            MainObj mainObj = new MainObj(h1, r, k, h2, a);
+            SimpleStore.points.clear();
+            SimpleStore.polys.clear();
             Cords cords = new Cords();
+            MainObj mainObj = new MainObj(h1, r, k, h2, a);
             SimpleStore.objs.add(cords);
             SimpleStore.objs.add(mainObj);
             paintPanel.repaint();

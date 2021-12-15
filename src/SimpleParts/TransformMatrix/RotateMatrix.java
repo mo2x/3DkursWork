@@ -6,9 +6,9 @@ public class RotateMatrix extends Matrix {
 
     public RotateMatrix(double x, double y, double z){
         super(4,4);
-        double grX = x*(Math.PI/180);
-        double grY = y*(Math.PI/180);
-        double grZ = z*(Math.PI/180);
+        double grX = Math.toRadians(x);
+        double grY = Math.toRadians(y);
+        double grZ = Math.toRadians(z);
         Matrix rotX = new Matrix(4,4,
                 1,0,0,0,
                 0,Math.cos(grX),Math.sin(grX),0,

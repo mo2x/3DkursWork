@@ -1,8 +1,8 @@
 package SimpleParts;
 
 public class Line3D {
-    int firstPointInList;
-    int secondPointInList;
+    public int firstPointInList;
+    public int secondPointInList;
 
     public Line3D(int p1, int p2){
         firstPointInList = p1;
