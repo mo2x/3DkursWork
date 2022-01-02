@@ -15,6 +15,7 @@ public class SimpleStore {
     public static ArrayList<Poly3D> polys;
 
     public static ArrayList<Point3D> visBuf;
+    public static ArrayList<Poly3D> polyBuf;
 
     public static void init(){
         objs = new ArrayList<>();

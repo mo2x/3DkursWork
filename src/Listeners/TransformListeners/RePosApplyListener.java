@@ -27,6 +27,7 @@ public class RePosApplyListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
+            System.out.println("---применен перенос---");
             double x = Double.parseDouble(posX.getText());
             double y = Double.parseDouble(posY.getText());
             double z = Double.parseDouble(posZ.getText());

@@ -9,9 +9,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Obj3D{
-
-
-    public static int num = 0;
     private Point3D center;
     private String name;
     protected Color strokeColor;
@@ -44,12 +41,8 @@ public class Obj3D{
     public void draw(Graphics2D graphics2D,double objToWin){
         graphics2D.setColor(strokeColor);
         graphics2D.setStroke(stroke);
-        int j = 0;
+        if (Painter.hide)
         for (int value : polys) {
-            j++;
-            if (j==num) {
-                break;
-            }
             Poly3D poly = SimpleStore.polys.get(value);
             int[] x = new int[poly.points.length];
             int[] y = new int[poly.points.length];
@@ -58,12 +51,25 @@ public class Obj3D{
                 x[i] = loc.getX();
                 y[i] = loc.getY();
             }
-            graphics2D.setColor(new Color(Color.blue.getRGB()));
+            Color color;
+            double dr = (poly.bright*Painter.lightID + Painter.lightKa*Painter.lightIa);
+            if (dr > 1){
+                dr = 1;
+            }
+            if (Painter.light) {
+                color = new Color((float) (poly.color.getRed() * dr / 255),
+                        (float) (poly.color.getGreen() * dr / 255),
+                        (float) (poly.color.getBlue() * dr / 255));
+
+            } else {
+                color = new Color(Color.BLUE.getRGB());
+            }
+            graphics2D.setColor(color);
             graphics2D.fillPolygon(x, y, poly.points.length);
             graphics2D.setColor(strokeColor);
             graphics2D.drawPolygon(x, y, poly.points.length);
         }
-        if (name.equals("Cords"))
+        if ((name.equals("Cords"))||(!Painter.hide))
         for (int k : lines) {
             Line3D line = SimpleStore.lines.get(k);
             Point3D point1 = SimpleStore.points.get(points[line.firstPointInList]);

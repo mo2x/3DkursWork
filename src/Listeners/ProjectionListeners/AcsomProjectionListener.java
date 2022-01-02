@@ -32,7 +32,6 @@ public class AcsomProjectionListener implements ActionListener {
             Painter.setModMatrix(acsonomProjection);
             Painter.fi = fiD;
             Painter.psi = psiD;
-            Obj3D.num++;
             Controller.getPaintPanel().repaint();
 
         } catch (Exception exception) {

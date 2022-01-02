@@ -19,6 +19,13 @@ public class MakeObjButtonListener implements ActionListener {
     JTextField h2TF;
     JTextField aTF;
 
+    JCheckBox lines;
+    JCheckBox light;
+
+    JTextField lx;
+    JTextField ly;
+    JTextField lz;
+
     public MakeObjButtonListener(PaintPanel paintPanel,
                                  JTextField h1TF,
                                  JTextField rTF,

@@ -39,12 +39,14 @@ public class MainObj extends Obj3D {
         int[] base = new int[k];
         double angle = Math.toRadians(360f/k);
         for (int i = 0; i<k; i++){
-            addPoint(new Point3D(Math.cos(angle*i)*r,0,Math.sin(angle*i)*r));
+            Point3D aprocsP = new Point3D(Math.cos(angle*i)*r,0,Math.sin(angle*i)*r);
+            addPoint(aprocsP);
+            aprocsP.print();
             addLine(new Line3D(6,7+i));
             base[i] = 7+i;
             if (i>0){
                 addLine(new Line3D(6+i,7+i));
-                addPoly(new Poly3D((6+i),(7+i),(6)));
+                addPoly(new Poly3D((7+i),(6+i),(6)));
             }
             if (i == k-1){
                 addLine(new Line3D(7+i,7));

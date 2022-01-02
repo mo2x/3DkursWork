@@ -19,7 +19,7 @@ public class ApplyButtonListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         try {
 
-            Painter.wightCount = Integer.parseInt(wightCount.getText());;
+            Painter.wightCount = Integer.parseInt(wightCount.getText());
             Controller.getPaintPanel().repaint();
 
         } catch (Exception exception) {

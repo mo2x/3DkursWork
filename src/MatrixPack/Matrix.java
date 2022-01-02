@@ -39,12 +39,24 @@ public class Matrix {
             System.arraycopy(values[i], 0, this.values[i], 0, lines);
     }
 
-    public void Print(){
+    public void print(){
+        System.out.println("вывод матрицы ("+lines+"X"+columns+")");
+        System.out.print("┌");
+        for (int i = 0; i<columns; i++)
+        System.out.print("      ");
+        System.out.println("┐");
         for (int i = 0; i<lines; i++) {
+            System.out.print("│");
             for (int j = 0; j < columns; j++)
-                System.out.print(values[i][j]+" ");
+                System.out.printf("%6.2f",values[i][j]);
+            System.out.print("│");
             System.out.print("\n");
         }
+        System.out.print("└");
+        for (int i = 0; i<columns; i++)
+            System.out.print("      ");
+        System.out.print("┘");
+        System.out.println();
     }
     public static Matrix multiplication(Matrix matrix1c, Matrix matrix2c){
         Matrix matrix1 = new Matrix(matrix1c);
